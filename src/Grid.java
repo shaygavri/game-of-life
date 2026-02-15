@@ -39,6 +39,12 @@ public class Grid {
         }
     }
 
+    /**
+     *
+     * @param row
+     * @param col
+     * @return
+     */
     public Cell getCell(int row, int col) {
         return cells[row][col];
     }

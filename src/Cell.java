@@ -5,6 +5,10 @@
 public class Cell {
     private boolean alive;
 
+    /**
+     *
+     * @param alive
+     */
     public Cell(boolean alive) {
         this.alive = alive;
     }
