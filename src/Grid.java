@@ -109,7 +109,7 @@ public class Grid {
     /**
      * promotes the grid to the next step according to the neighbors of each cell
      */
-    public void nextGrid() {
+    public void nextGeneration() {
         Cell[][] nextGrd = new Cell[height][width];
 
         for (int row = 0; row < height; row++) {
