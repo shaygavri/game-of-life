@@ -1,204 +1,74 @@
 /**
- * Comprehensive demo for Conway's Game of Life.
- * Tests all patterns and core functionality.
+ * Simple demo to test Conway's Game of Life patterns.
+ * Run this to verify everything works before using the GUI.
  */
 public class GameOfLifeDemo {
 
     public static void main(String[] args) {
-        System.out.println("╔════════════════════════════════════════════════════════════╗");
-        System.out.println("║     CONWAY'S GAME OF LIFE - COMPREHENSIVE DEMO            ║");
-        System.out.println("╚════════════════════════════════════════════════════════════╝");
-        System.out.println();
+        System.out.println("Conway's Game of Life - Demo\n");
 
-        // Test 1: Still Lifes
-        testStillLifes();
+        // Test a still life
+        testBlock();
 
-        // Test 2: Oscillators
-        testOscillators();
+        // Test an oscillator
+        testBlinker();
 
-        // Test 3: Spaceships
-        testSpaceships();
+        // Test a spaceship
+        testGlider();
 
-        // Test 4: Glider Guns
-        testGliderGuns();
+        // Test the glider gun
+        testGliderGun();
 
-        // Test 5: Random Evolution
-        testRandomEvolution();
+        // Test random grid
+        testRandom();
 
-        System.out.println("╔════════════════════════════════════════════════════════════╗");
-        System.out.println("║     ALL TESTS COMPLETED SUCCESSFULLY!                     ║");
-        System.out.println("║     Core logic verified. Ready for GUI.                   ║");
-        System.out.println("╚════════════════════════════════════════════════════════════╝");
+        System.out.println("\nAll tests complete!");
     }
 
     /**
-     * Test still life patterns (should never change).
+     * Test the Block pattern (should stay the same).
      */
-    private static void testStillLifes() {
-        System.out.println("═══════════════════════════════════════════════════════════");
-        System.out.println("TEST 1: STILL LIFES (Never Change)");
-        System.out.println("═══════════════════════════════════════════════════════════");
+    private static void testBlock() {
+        System.out.println("Testing Block (still life):");
+        Grid grid = new Grid(10, 10);
+        Pattern.block().placeOnGrid(grid, 4, 4);
 
-        String[] stillLifeNames = {"Block", "Beehive", "Loaf", "Boat", "Tub"};
-        Pattern[] stillLifes = {
-                Pattern.block(),
-                Pattern.BeeHive(),
-                Pattern.loaf(),
-                Pattern.boat(),
-                Pattern.tub()
-        };
+        System.out.println("Generation 0:");
+        grid.printGrid();
 
-        for (int i = 0; i < stillLifes.length; i++) {
-            Grid grid = new Grid(20, 20);
-            Pattern pattern = stillLifes[i];
-
-            System.out.println("\n→ Testing: " + stillLifeNames[i]);
-            pattern.placeOnGrid(grid, 8, 8);
-
-            System.out.println("Generation 0:");
-            grid.printGrid();
-
-            grid.nextGeneration();
-            System.out.println("Generation 1 (should be identical):");
-            grid.printGrid();
-
-            System.out.println("✓ " + stillLifeNames[i] + " is stable");
-        }
-
-        System.out.println("\n✓ All still lifes verified!\n");
+        grid.nextGeneration();
+        System.out.println("Generation 1 (should look the same):");
+        grid.printGrid();
     }
 
     /**
-     * Test oscillator patterns.
+     * Test the Blinker pattern (should flip back and forth).
      */
-    private static void testOscillators() {
-        System.out.println("═══════════════════════════════════════════════════════════");
-        System.out.println("TEST 2: OSCILLATORS (Repeat in Cycles)");
-        System.out.println("═══════════════════════════════════════════════════════════");
+    private static void testBlinker() {
+        System.out.println("Testing Blinker (oscillator):");
+        Grid grid = new Grid(10, 10);
+        Pattern.blinker().placeOnGrid(grid, 4, 4);
 
-        // Test Blinker (period 2)
-        System.out.println("\n→ Testing: Blinker (Period 2)");
+        System.out.println("Generation 0:");
+        grid.printGrid();
+
+        grid.nextGeneration();
+        System.out.println("Generation 1 (rotated):");
+        grid.printGrid();
+
+        grid.nextGeneration();
+        System.out.println("Generation 2 (back to original):");
+        grid.printGrid();
+    }
+
+    /**
+     * Test the Glider pattern (should move diagonally).
+     */
+    private static void testGlider() {
+        System.out.println("Testing Glider (spaceship):");
         Grid grid = new Grid(15, 15);
-        Pattern.blinker().placeOnGrid(grid, 6, 6);
-
-        System.out.println("Generation 0:");
-        grid.printGrid();
-
-        grid.nextGeneration();
-        System.out.println("Generation 1 (rotated 90°):");
-        grid.printGrid();
-
-        grid.nextGeneration();
-        System.out.println("Generation 2 (back to original):");
-        grid.printGrid();
-
-        System.out.println("✓ Blinker oscillates correctly");
-
-        // Test Toad (period 2)
-        System.out.println("\n→ Testing: Toad (Period 2)");
-        grid.clear();
-        Pattern.toad().placeOnGrid(grid, 6, 6);
-
-        System.out.println("Generation 0:");
-        grid.printGrid();
-
-        grid.nextGeneration();
-        System.out.println("Generation 1:");
-        grid.printGrid();
-
-        grid.nextGeneration();
-        System.out.println("Generation 2 (back to original):");
-        grid.printGrid();
-
-        System.out.println("✓ Toad oscillates correctly");
-
-        // Test Beacon (period 2)
-        System.out.println("\n→ Testing: Beacon (Period 2)");
-        grid.clear();
-        Pattern.beacon().placeOnGrid(grid, 6, 6);
-
-        System.out.println("Generation 0:");
-        grid.printGrid();
-
-        grid.nextGeneration();
-        System.out.println("Generation 1:");
-        grid.printGrid();
-
-        System.out.println("✓ Beacon oscillates correctly");
-
-        System.out.println("\n→ Testing: Pulsar (Period 3)");
-        System.out.println("(Large pattern - showing first 3 generations)");
-        Grid pulsarGrid = new Grid(20, 20);
-        Pattern.pulsar().placeOnGrid(pulsarGrid, 3, 3);
-
-        for (int gen = 0; gen < 3; gen++) {
-            System.out.println("Generation " + gen + ":");
-            pulsarGrid.printGrid();
-            pulsarGrid.nextGeneration();
-        }
-
-        System.out.println("✓ Pulsar verified");
-
-        System.out.println("\n→ Testing: Pentadecathlon (Period 15)");
-        System.out.println("(Showing generations 0, 5, 10, 15)");
-        Grid pentaGrid = new Grid(20, 20);
-        Pattern.pentadecathlon().placeOnGrid(pentaGrid, 5, 7);
-
-        System.out.println("Generation 0:");
-        pentaGrid.printGrid();
-
-        for (int i = 0; i < 5; i++) {
-            pentaGrid.nextGeneration();
-        }
-        System.out.println("Generation 5:");
-        pentaGrid.printGrid();
-
-        for (int i = 0; i < 5; i++) {
-            pentaGrid.nextGeneration();
-        }
-        System.out.println("Generation 10:");
-        pentaGrid.printGrid();
-
-        for (int i = 0; i < 5; i++) {
-            pentaGrid.nextGeneration();
-        }
-        System.out.println("Generation 15 (back to original):");
-        pentaGrid.printGrid();
-
-        System.out.println("✓ Pentadecathlon verified");
-        System.out.println("\n✓ All oscillators verified!\n");
-    }
-
-    /**
-     * Test spaceship patterns (move across grid).
-     */
-    private static void testSpaceships() {
-        System.out.println("═══════════════════════════════════════════════════════════");
-        System.out.println("TEST 3: SPACESHIPS (Move Across Grid)");
-        System.out.println("═══════════════════════════════════════════════════════════");
-
-        // Test Glider
-        System.out.println("\n→ Testing: Glider (moves diagonally)");
-        Grid grid = new Grid(20, 20);
         Pattern.glider().placeOnGrid(grid, 2, 2);
 
-        System.out.println("Generation 0 (position: 2,2):");
-        grid.printGrid();
-
-        for (int i = 0; i < 4; i++) {
-            grid.nextGeneration();
-        }
-
-        System.out.println("Generation 4 (moved diagonally to ~3,3):");
-        grid.printGrid();
-
-        System.out.println("✓ Glider moves diagonally");
-
-        // Test LWSS
-        System.out.println("\n→ Testing: LWSS (moves horizontally)");
-        grid.clear();
-        Pattern.lightweightSpaceship().placeOnGrid(grid, 8, 2);
-
         System.out.println("Generation 0:");
         grid.printGrid();
 
@@ -206,100 +76,45 @@ public class GameOfLifeDemo {
             grid.nextGeneration();
         }
 
-        System.out.println("Generation 4 (moved right):");
+        System.out.println("Generation 4 (moved down and right):");
         grid.printGrid();
-
-        System.out.println("✓ LWSS moves horizontally");
-
-        // Test MWSS
-        System.out.println("\n→ Testing: MWSS (moves horizontally)");
-        grid.clear();
-        Pattern.middleweightSpaceship().placeOnGrid(grid, 8, 2);
-
-        System.out.println("Generation 0:");
-        grid.printGrid();
-
-        for (int i = 0; i < 4; i++) {
-            grid.nextGeneration();
-        }
-
-        System.out.println("Generation 4 (moved right):");
-        grid.printGrid();
-
-        System.out.println("✓ MWSS moves horizontally");
-
-        // Test HWSS
-        System.out.println("\n→ Testing: HWSS (moves horizontally)");
-        grid.clear();
-        Pattern.heavyweightSpaceship().placeOnGrid(grid, 8, 2);
-
-        System.out.println("Generation 0:");
-        grid.printGrid();
-
-        for (int i = 0; i < 4; i++) {
-            grid.nextGeneration();
-        }
-
-        System.out.println("Generation 4 (moved right):");
-        grid.printGrid();
-
-        System.out.println("✓ HWSS moves horizontally");
-
-        System.out.println("\n✓ All spaceships verified!\n");
     }
 
     /**
-     * Test glider gun patterns.
+     * Test the Gosper Glider Gun (creates gliders).
      */
-    private static void testGliderGuns() {
-        System.out.println("═══════════════════════════════════════════════════════════");
-        System.out.println("TEST 4: GLIDER GUNS (Create Infinite Gliders)");
-        System.out.println("═══════════════════════════════════════════════════════════");
-
-        // Test Gosper Glider Gun
-        System.out.println("\n→ Testing: Gosper Glider Gun");
-        System.out.println("(36×9 pattern, period 30)");
+    private static void testGliderGun() {
+        System.out.println("Testing Gosper Glider Gun:");
         Grid grid = new Grid(50, 50);
         Pattern.GosperGliderGun().placeOnGrid(grid, 20, 5);
 
-        System.out.println("Generation 0 (initial state):");
+        System.out.println("Generation 0:");
         grid.printGrid();
 
-        System.out.println("\nAdvancing 30 generations...");
+        System.out.println("Running 30 generations...");
         for (int i = 0; i < 30; i++) {
             grid.nextGeneration();
         }
 
-        System.out.println("Generation 30 (first glider created):");
+        System.out.println("Generation 30 (a glider should appear):");
         grid.printGrid();
-        System.out.println("(You should see a glider flying to the right)");
-
-        System.out.println("✓ Gosper Glider Gun verified");
-
-        System.out.println("\n✓ All glider guns verified!\n");
     }
 
     /**
-     * Test random evolution.
+     * Test random grid evolution.
      */
-    private static void testRandomEvolution() {
-        System.out.println("═══════════════════════════════════════════════════════════");
-        System.out.println("TEST 5: RANDOM EVOLUTION");
-        System.out.println("═══════════════════════════════════════════════════════════");
-
+    private static void testRandom() {
+        System.out.println("Testing Random Grid:");
         Grid grid = new Grid(15, 15);
-        grid.randomize(0.3);
+        grid.randomize();
 
-        System.out.println("\nRandom starting configuration:");
+        System.out.println("Generation 0 (random):");
         grid.printGrid();
 
-        System.out.println("\nEvolving for 5 generations...");
-        for (int i = 1; i <= 5; i++) {
+        for (int i = 1; i <= 3; i++) {
             grid.nextGeneration();
             System.out.println("Generation " + i + ":");
             grid.printGrid();
         }
-
-        System.out.println("✓ Random evolution works correctly\n");
     }
 }

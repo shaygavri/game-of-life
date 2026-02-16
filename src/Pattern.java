@@ -5,33 +5,61 @@ public class Pattern {
     private boolean[][] pattern;
     private String name;
 
-
+    /**
+     * Creates a new pattern with the specified name and shape.
+     *
+     * @param name the name of the pattern (e.g., "Glider", "Blinker")
+     * @param pattern 2D array where true = alive cell, false = dead cell
+     */
     public Pattern(String name, boolean[][] pattern) {
         this.name = name;
         this.pattern = pattern;
     }
 
-
+    /**
+     * Gets the name of this pattern.
+     *
+     * @return the pattern's name
+     */
     public String getName() {
         return name;
     }
 
-
+    /**
+     * Gets the 2D array representing this pattern.
+     *
+     * @return the pattern array (true = alive, false = dead)
+     */
     public boolean[][] getPattern() {
         return pattern;
     }
 
-
+    /**
+     * Gets the height (number of rows) of this pattern.
+     *
+     * @return the height of the pattern
+     */
     public int getHeight() {
         return pattern.length;
     }
 
-
+    /**
+     * Gets the width (number of columns) of this pattern.
+     *
+     * @return the width of the pattern
+     */
     public int getWidth() {
         return pattern[0].length;
     }
 
-
+    /**
+     * Places this pattern on the grid at the specified position.
+     * Only cells within the grid boundaries will be placed.
+     *
+     * @param grid the grid to place the pattern on
+     * @param startRow the top-left row position to start placing
+     * @param startCol the top-left column position to start placing
+     */
     public void placeOnGrid(Grid grid, int startRow, int startCol) {
         for (int row = 0; row < pattern.length; row++) {
             for (int col = 0; col < pattern[row].length; col++) {
